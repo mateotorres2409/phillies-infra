@@ -1,0 +1,14 @@
+[
+  {
+    "name": "${name}",
+    "image": "${image}",
+    "essential": ${essential},
+    "portMappings" : [
+      {
+        "containerPort" : ${containerPort},
+        "hostPort"      : ${hostPort},
+        "protocol": "TCP"
+      }
+    ]
+  }
+]
