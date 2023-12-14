@@ -38,7 +38,7 @@ variable "name-cluster" {
 }
 variable "register_task_definition" {
   default     = true
-  description = "Registers a new task definition from the supplied family and containerDefinitions"
+  description = "Registers a new task definition from the supplied family and containerDefinitions "
 }
 
 variable "name-01" {
