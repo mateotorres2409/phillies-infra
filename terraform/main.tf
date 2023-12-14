@@ -5,13 +5,22 @@ terraform {
       version = "~> 5.0"
     }
   }
+  backend "s3" {
+    bucket                  = "phillies-project"
+    shared_config_files      = ["~/.aws/config"]
+    shared_credentials_files = ["~/.aws/credentials"]
+    region = "us-east-1"
+    key = "terraform/terrafrom.tfstate"
+
+  }
 }
 
 provider "aws" {
-  shared_config_files      = ["/Users/mateotorres2409/.aws/config"]
-  shared_credentials_files = ["/Users/mateotorres2409/.aws/credentials"]
+  shared_config_files      = ["~/.aws/config"]
+  shared_credentials_files = ["~/.aws/credentials"]
   profile                  = "default"
 }
+
 # Networking
 resource "aws_vpc" "project-vpc" {
   cidr_block = var.cidr-vpc
