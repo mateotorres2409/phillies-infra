@@ -67,3 +67,9 @@ variable "desired-count-01" {
   type    = number
   default = 0
 }
+variable "bucket_name" {
+  type = string
+}
+variable "object_bucket_name" {
+  type = string
+}

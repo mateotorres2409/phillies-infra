@@ -23,3 +23,6 @@ essential-01     = true
 cpu-01           = 256
 memory-01        = 512
 desired-count-01 = 2
+
+bucket_name        = "phillies-project"
+object_bucket_name = "front"

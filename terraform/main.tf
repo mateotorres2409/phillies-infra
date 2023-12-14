@@ -6,11 +6,11 @@ terraform {
     }
   }
   backend "s3" {
-    bucket                  = "phillies-project"
+    bucket                   = "phillies-project"
     shared_config_files      = ["~/.aws/config"]
     shared_credentials_files = ["~/.aws/credentials"]
-    region = "us-east-1"
-    key = "terraform/terrafrom.tfstate"
+    region                   = "us-east-1"
+    key                      = "terraform/terrafrom.tfstate"
 
   }
 }
@@ -23,8 +23,10 @@ provider "aws" {
 
 # Networking
 resource "aws_vpc" "project-vpc" {
-  cidr_block = var.cidr-vpc
-  tags       = merge(var.tags)
+  cidr_block           = var.cidr-vpc
+  tags                 = merge(var.tags)
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 }
 resource "aws_security_group" "project-sg" {
   vpc_id     = aws_vpc.project-vpc.id
@@ -126,7 +128,80 @@ resource "aws_lb_listener" "project-80-lbl" {
   tags       = merge(var.tags)
   depends_on = [aws_lb.project-lb, aws_lb_target_group.project-80-lbtg]
 }
-# ECS
+# S3
+resource "aws_s3_bucket_acl" "s3_bucket_acl" {
+  bucket = data.aws_s3_bucket.bucket_project.id
+  acl    = "private"
+}
+resource "aws_s3_bucket_public_access_block" "block_public_access" {
+  bucket = data.aws_s3_bucket.bucket_project.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+#resource "aws_s3_object" "object" {
+#  bucket       = data.aws_s3_bucket.bucket_project.id
+#  key          = "front/index.html"
+#  source       = "test/index.html"
+#  content_type = "text/html"
+#
+#  etag = filemd5("test/index.html")
+#  depends_on = [data.aws_s3_bucket.bucket_project]
+#}
+
+resource "aws_s3_bucket_policy" "cdn-oac-bucket-policy" {
+  bucket = data.aws_s3_bucket.bucket_project.id
+  policy = data.aws_iam_policy_document.s3_bucket_policy.json
+}
+
+#Cloudfront
+resource "aws_cloudfront_origin_access_control" "cloudfront_s3_oac" {
+  name                              = "CloudFront S3 OAC"
+  description                       = "Cloud Front S3 OAC"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+resource "aws_cloudfront_distribution" "my_distrib" {
+  enabled = true
+  origin {
+    domain_name              = data.aws_s3_bucket.bucket_project.bucket_regional_domain_name
+    origin_id                = "bucketPrimary"
+    origin_access_control_id = aws_cloudfront_origin_access_control.cloudfront_s3_oac.id
+  }
+  default_cache_behavior {
+    allowed_methods  = ["GET", "HEAD"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "bucketPrimary"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "allow-all"
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+  }
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+      locations        = []
+    }
+  }
+  depends_on = [data.aws_s3_bucket.bucket_project, aws_cloudfront_origin_access_control.cloudfront_s3_oac]
+}
+#ECS
 resource "aws_ecs_cluster" "project-cluster" {
   name = "project"
   tags = merge(var.tags)
