@@ -8,7 +8,7 @@ on:
 jobs:    
     plan:
         name: Terraform plan
-        runs-on: ubuntu-lates        
+        runs-on: ubuntu-latest       
         permissions: 
             id-token: write
             contents: read        
