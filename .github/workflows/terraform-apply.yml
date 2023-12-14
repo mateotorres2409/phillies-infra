@@ -4,8 +4,8 @@ on:
     branches: main
     paths: terraform/**
 jobs:    
-  plan:
-    name: Terraform plan
+  apply:
+    name: Terraform apply
     runs-on: ubuntu-latest       
     permissions: 
       id-token: write
@@ -25,7 +25,8 @@ jobs:
           terraform_version: "1.6.5"          
       - name: Terraform Init
         id: init
-        run: terraform init                
+        run: terraform init    
+        working-directory: ./terraform            
       - name: Terraform Apply
         id: apply
         run: terraform apply -no-color -auto-approve
