@@ -1,5 +1,5 @@
 output "dns_lb" {
-  value       = aws_lb.project-lb.dns_name
+  value = aws_lb.project-lb.dns_name
 }
 
 output "bucket_regional_domain_name" {

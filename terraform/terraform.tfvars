@@ -13,7 +13,7 @@ az-subnet-02    = "us-east-1b"
 pubip-subnet-01 = true
 pubip-subnet-02 = true
 
-name-cluster = "project"
+name-cluster             = "project"
 register_task_definition = true
 
 name-01          = "nginx"
