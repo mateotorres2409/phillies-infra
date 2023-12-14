@@ -25,16 +25,19 @@ jobs:
               uses: hashicorp/setup-terraform@v3
               with:
                 terraform_version: "1.6.5"
-            - run: cd terraform
             - name: Terraform fmt
               id: fmt
               run: terraform fmt -check              
+              working-directory: ./terraform
             - name: Terraform Init
               id: init
-              run: terraform init              
+              run: terraform init           
+              working-directory: ./terraform          
             - name: Terraform Validate
               id: validate
-              run: terraform validate -no-color              
+              run: terraform validate -no-color         
+              working-directory: ./terraform            
             - name: Terraform Plan
               id: plan
-              run: terraform plan -no-color
+              run: terraform plan -no-color       
+              working-directory: ./terraform
