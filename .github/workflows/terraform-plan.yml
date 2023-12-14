@@ -20,7 +20,7 @@ jobs:
               with:
                 aws-access-key-id: secret.aws_access_key
                 aws-secret-access-key: secret.aws_secret_access_key
-                aws-region: secret.aws_region
+                aws-region: var.aws_region
             - name: setupTerraform
               uses: hashicorp/setup-terraform@v3
               with:
