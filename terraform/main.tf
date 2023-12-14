@@ -204,7 +204,7 @@ resource "aws_ecs_cluster_capacity_providers" "project-clustercp" {
   capacity_providers = ["FARGATE"]
   depends_on         = [aws_ecs_cluster.project-cluster]
 }
-resource "aws_ecs_task_definition" "project-nginx-svctd" {
+resource "aws_ecs_task_definition" "project-svctd" {
   family                   = var.name-01
   requires_compatibilities = ["FARGATE"]
   execution_role_arn       = data.aws_iam_role.ecs_task_execution_role.arn
@@ -228,10 +228,10 @@ resource "aws_ecs_task_definition" "project-nginx-svctd" {
   )
   tags = var.tags
 }
-resource "aws_ecs_service" "project-nginx-svc" {
+resource "aws_ecs_service" "project-svc" {
   name                = var.name-01
   cluster             = aws_ecs_cluster.project-cluster.id
-  task_definition     = aws_ecs_task_definition.project-nginx-svctd.arn
+  task_definition     = aws_ecs_task_definition.project-svctd.arn
   desired_count       = var.desired-count-01
   launch_type         = "FARGATE"
   scheduling_strategy = "REPLICA"
@@ -245,5 +245,5 @@ resource "aws_ecs_service" "project-nginx-svc" {
     container_name   = var.name-01
     container_port   = var.containerPort-01
   }
-  depends_on = [aws_ecs_cluster.project-cluster, aws_ecs_task_definition.project-nginx-svctd, aws_security_group.project-sg, aws_subnet.project-subnet-01, aws_subnet.project-subnet-02, aws_lb_target_group.project-80-lbtg]
+  depends_on = [aws_ecs_cluster.project-cluster, aws_ecs_task_definition.project-svctd, aws_security_group.project-sg, aws_subnet.project-subnet-01, aws_subnet.project-subnet-02, aws_lb_target_group.project-80-lbtg]
 }
