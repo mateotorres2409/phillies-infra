@@ -1,6 +1,6 @@
-#output "dns_lb" {
-#  value       = aws_lb.project-lb.dns_name
-#}
+output "dns_lb" {
+  value       = aws_lb.project-lb.dns_name
+}
 
 output "bucket_regional_domain_name" {
   value = data.aws_s3_bucket.bucket_project.bucket_regional_domain_name
