@@ -1,4 +1,4 @@
-name: Terraform plan
+name: Terraform apply
 on:
   push: 
     branches: main
@@ -28,7 +28,7 @@ jobs:
         run: terraform init                
       - name: Terraform Apply
         id: apply
-        run: ls -ltra
+        run: terraform apply -no-color -auto-approve
         working-directory: ./terraform
         continue-on-error: true
         
