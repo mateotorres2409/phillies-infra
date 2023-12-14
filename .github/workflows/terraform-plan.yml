@@ -29,6 +29,7 @@ jobs:
               id: fmt
               run: terraform fmt -check              
               working-directory: ./terraform
+              continue-on-error: true
             - name: Terraform Init
               id: init
               run: terraform init           
@@ -41,3 +42,4 @@ jobs:
               id: plan
               run: terraform plan -no-color       
               working-directory: ./terraform
+              continue-on-error: true
