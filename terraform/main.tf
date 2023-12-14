@@ -6,8 +6,8 @@ terraform {
     }
   }
   backend "s3" {
-    bucket                   = "phillies-project"
-    key                      = "terraform/terrafrom.tfstate"
+    bucket = "phillies-project"
+    key    = "terraform/terrafrom.tfstate"
   }
 }
 
