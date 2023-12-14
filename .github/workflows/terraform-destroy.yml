@@ -1,0 +1,33 @@
+name: Terraform destroy
+on:
+    workflow_dispatch:         
+jobs:    
+  apply:
+    name: Terraform apply
+    runs-on: ubuntu-latest       
+    permissions: 
+      id-token: write
+      contents: read        
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.aws_access_key }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: setupTerraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.5"          
+      - name: Terraform Init
+        id: init
+        run: terraform init    
+        working-directory: ./terraform            
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy -no-color -auto-approve
+        working-directory: ./terraform
+        continue-on-error: true
+        
