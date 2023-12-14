@@ -3,8 +3,8 @@ on:
     push:
         branches: 
             - feature/*      
-        paths: 
-            - terraform/**
+        #paths: 
+        #    - terraform/**
 jobs:    
     plan:
         name: Terraform plan
