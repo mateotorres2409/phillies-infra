@@ -1,7 +1,7 @@
 tags = {
-  "owner"       = "Mateo Torres"
-  "use"         = "Project AWS"
-  "environment" = "temporal"
+  "owner"       = "Team Phillies"
+  "use"         = "Project"
+  "environment" = "mateo"
 }
 
 cidr-vpc = "10.0.0.0/24"
@@ -14,6 +14,7 @@ pubip-subnet-01 = true
 pubip-subnet-02 = true
 
 name-cluster = "project"
+register_task_definition = true
 
 name-01          = "nginx"
 image-01         = "nginx:stable-alpine3.17"
