@@ -38,6 +38,9 @@ jobs:
         working-directory: ./terraform            
       - name: Terraform Plan
         id: plan
-        run: terraform plan -var "image-01=${{ vars.IMAGE_ECS }}" -no-color       
+        run: terraform plan -var "image-01=${{ vars.IMAGE_ECS }}" -no-color  
+      - name: Terraform Show
+        id: show
+        run: terraform show -var "image-01=${{ vars.IMAGE_ECS }}" -no-color      
         working-directory: ./terraform
         continue-on-error: true
