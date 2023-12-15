@@ -233,7 +233,7 @@ resource "aws_ecs_service" "project-svc" {
   load_balancer {
     target_group_arn = aws_lb_target_group.project-80-lbtg.id
     container_name   = var.name-01
-    container_port   = var.containerPort-01
+    container_port   = var.containerPort-01    
   }
   depends_on = [aws_ecs_cluster.project-cluster, aws_ecs_task_definition.project-svctd, aws_security_group.project-sg, aws_subnet.project-subnet-01, aws_subnet.project-subnet-02, aws_lb_target_group.project-80-lbtg]
 }

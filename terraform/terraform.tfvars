@@ -17,7 +17,6 @@ name-cluster             = "project"
 register_task_definition = true
 
 name-01          = "phillies"
-image-01         = "nginx:stable-alpine3.17"
 containerPort-01 = 80
 hostPort-01      = 80
 essential-01     = true
