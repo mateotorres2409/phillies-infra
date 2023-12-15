@@ -29,7 +29,7 @@ jobs:
         working-directory: ./terraform            
       - name: Terraform Apply
         id: apply
-        run: terraform apply -no-color -auto-approve
+        run: terraform apply -var "image-01=${{ vars.IMAGE_ECS }}" -no-color -auto-approve
         working-directory: ./terraform
         continue-on-error: true
         

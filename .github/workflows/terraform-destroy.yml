@@ -27,7 +27,7 @@ jobs:
         working-directory: ./terraform            
       - name: Terraform Destroy
         id: destroy
-        run: terraform destroy -no-color -auto-approve
+        run: terraform destroy -var "image-01=${{ vars.IMAGE_ECS }}" -no-color -auto-approve
         working-directory: ./terraform
         continue-on-error: true
         
