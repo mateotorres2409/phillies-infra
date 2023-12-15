@@ -42,6 +42,6 @@ jobs:
         working-directory: ./terraform
       - name: Terraform Show
         id: show
-        run: terraform show -var "image-01=${{ vars.IMAGE_ECS }}" -no-color      
+        run: terraform show      
         working-directory: ./terraform
         continue-on-error: true
