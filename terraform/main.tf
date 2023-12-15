@@ -8,6 +8,7 @@ terraform {
   backend "s3" {
     bucket = "phillies-project"
     key    = "terraform/terrafrom.tfstate"
+    region = "us-east-1"
   }
 }
 
@@ -134,17 +135,6 @@ resource "aws_s3_bucket_public_access_block" "block_public_access" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
-
-#resource "aws_s3_object" "object" {
-#  bucket       = data.aws_s3_bucket.bucket_project.id
-#  key          = "front/index.html"
-#  source       = "test/index.html"
-#  content_type = "text/html"
-#
-#  etag = filemd5("test/index.html")
-#  depends_on = [data.aws_s3_bucket.bucket_project]
-#}
-
 resource "aws_s3_bucket_policy" "cdn-oac-bucket-policy" {
   bucket = data.aws_s3_bucket.bucket_project.id
   policy = data.aws_iam_policy_document.s3_bucket_policy.json
